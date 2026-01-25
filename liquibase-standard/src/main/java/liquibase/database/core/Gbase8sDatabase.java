@@ -5,7 +5,7 @@ import liquibase.database.DatabaseConnection;
 import liquibase.database.OfflineConnection;
 import liquibase.exception.DatabaseException;
 import liquibase.executor.ExecutorService;
-import liquibase.statement.core.RawSqlStatement;
+import liquibase.statement.core.RawParameterizedSqlStatement;
 
 /**
  * GBase 8s
@@ -65,7 +65,7 @@ public class Gbase8sDatabase extends InformixDatabase {
         try {
             String schemaName = Scope.getCurrentScope().getSingleton(ExecutorService.class)
                     .getExecutor("jdbc", this)
-                    .queryForObject(new RawSqlStatement("select username from sysmaster.syssessions where sid = dbinfo('sessionid')"), String.class);
+                    .queryForObject(new RawParameterizedSqlStatement("select username from sysmaster.syssessions where sid = dbinfo('sessionid')"), String.class);
             if (schemaName != null) {
                 return schemaName.trim();
             }
